@@ -17,7 +17,7 @@ def read_csv(path):
     except OSError as e:
         print('Failed to read csv.')
         return None
-    
+
     return fileDat
 
 if __name__ == '__main__':
@@ -31,11 +31,11 @@ if __name__ == '__main__':
         csv_stocks = read_csv(CSV_PATH)
         total_dollars = float(args[0])
         ratio_total = sum([int(x[1]) for x in csv_stocks])
-        
+
         invest_names = []
         invest_dollars = []
         invest_shares = []
-        
+
         for stock, ratio in csv_stocks:
             _, _, hi, lo, _, _, _, _, _, _, _, _, _ = zip(*quandl.get('%s/%s' % (SOURCE, stock), rows=DAYS, returns='numpy'))
             mean_price = np.mean(hi + lo)
@@ -44,20 +44,20 @@ if __name__ == '__main__':
             invest_names.append(stock)
             invest_dollars.append(dollars)
             invest_shares.append(dollars / mean_price)
-        
+
         print('\nDollar Cost Averaging Advice:')
-        
+
         for name in invest_names:
             print(name, end='\t\t')
-            
+
         print()
-        
+
         for dollars in invest_dollars:
             print('$%0.2f' % dollars, end='\t')
-            
+
         print()
-        
+
         for shares in invest_shares:
             print('%0.2f shares' % shares, end='\t')
-            
+
         print()
